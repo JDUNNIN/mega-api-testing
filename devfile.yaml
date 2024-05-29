@@ -1,0 +1,28 @@
+schemaVersion: 2.1.0
+metadata:
+  name: MegaAPITesting
+  namespace: zconuser1-devspaces
+attributes:
+  controller.devfile.io/storage-type: ephemeral
+projects:
+  - git:
+      checkoutFrom:
+        revision: main
+      remotes:
+        origin: https://github.com/JDUNNIN/mega-api-testing
+    name: mega-api-testing
+components:
+  - name: zosconnect
+    container:
+      endpoints:
+        - exposure: public
+          name: zosconnect-ui
+          path: /zosConnect/designer/
+          protocol: http
+          targetPort: 9080
+      env:
+        - name: ZCON_DESIGNER_PROJECT
+          value: /projects/mega-api-testing
+      image: icr.io/zosconnect/ibm-zcon-designer:3.0.81
+      memoryLimit: 4927M
+      mountSources: true
