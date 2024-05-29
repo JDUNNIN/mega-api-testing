@@ -1,0 +1,761 @@
+openapi: 3.0.0
+info:
+  title: Mega API Testing
+  description: API using many different type of z/OS asset
+  version: '1.1'
+  license:
+    name: Apache-2.0
+    url: https://opensource.org/licenses/Apache-2.0
+servers:
+- url: /
+security:
+  - BasicAuth: []
+  - BearerAuth: []
+paths:
+  /items:
+    get:
+      tags:
+        - Catalog
+      summary: Get items in the catalog
+      description: Uses the catalogProgram CICS COMMAREA z/OS asset
+      operationId: itemsGet
+      parameters:
+        - $ref: '#/components/parameters/startItemID'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /items/{id}:
+    get:
+      tags:
+        - Catalog
+      summary: Get an item from the catalog
+      description: Uses the catalogProgram CICS COMMAREA z/OS asset
+      operationId: itemsIdGet
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogItemResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: Item could not be found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: A message describing the error
+  /orders:
+    post:
+      tags:
+        - Catalog
+      summary: Place an order for an item
+      description: Uses the catalogProgram CICS COMMAREA z/OS asset
+      operationId: ordersPost
+      parameters:
+        - $ref: '#/components/parameters/itemNumber'
+        - $ref: '#/components/parameters/quantity'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /employees/{id}:
+    get:
+      tags:
+      - Edit
+      - Discover
+      summary: Get an employee
+      description: Uses the getEmployee Db2 z/OS asset
+      operationId: employeesIdGet
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeBody'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+      - Edit
+      summary: Update an employee
+      description: Uses the updateEmployee Db2 z/OS asset
+      operationId: employeesIdPut
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeBody'
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeBody'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+      - Edit
+      summary: Delete an employee
+      description: Uses the deleteEmployee Db2 z/OS asset
+      operationId: employeesIdDelete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeNumber'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /employees:
+    get:
+      tags:
+      - Discover
+      summary: Get all employee details
+      description: Uses the getEmployees Db2 z/OS asset
+      operationId: employeesGet
+      parameters:
+      - name: department
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/Departments'
+      - name: job
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/Job'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeBodyFormatted'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+      - Edit
+      summary: Add an employee
+      description: Uses the addEmployee Db2 z/OS asset
+      operationId: employeesPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeBody'
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeBody'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /phonebook/contacts:
+    post:
+      tags:
+        - Contacts
+      summary: Add a contact to the phonebook
+      description: Uses the phonebook IMS Transaction z/OS asset
+      operationId: phonebookContactsPost
+      requestBody:
+        description: The contact to add to the phonebook.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /phonebook/contacts/{lastName}:
+    put:
+      tags:
+        - Contacts
+      summary: Update a contact in the phonebook
+      description: Uses the phonebook IMS Transaction z/OS asset
+      operationId: phonebookContactsLastNamePut
+      parameters:
+        - $ref: '#/components/parameters/lastName'
+      requestBody:
+        description: The fields to update in the contact in the phonebook.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactUpdate'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      tags:
+        - Contacts
+      summary: Display a contact
+      description: Uses the phonebook IMS Transaction z/OS asset
+      operationId: phonebookContactsLastNameGet
+      parameters:
+        - $ref: '#/components/parameters/lastName'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: Contact could not be found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: A message describing the error
+    delete:
+      tags:
+        - Contacts
+      summary: Delete a contact in the phonebook
+      description: Uses the phonebook IMS Transaction z/OS asset
+      operationId: phonebookContactsLastNameDelete
+      parameters:
+        - $ref: '#/components/parameters/lastName'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: A message describing the error
+    CatalogResponse:
+      type: object
+      properties:
+        totalItems:
+          type: integer
+          minimum: 0
+          maximum: 999
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogItemResponse'
+    CatalogItemResponse:
+      type: object
+      properties:
+        summary:
+          type: object
+          properties:
+            stock:
+              type: string
+              maxLength: 150
+              example: Department 10 has 56 'Ball Pens Red 24pk' in stock.
+            orders:
+              type: string
+              maxLength: 300
+              example: '10 ''Ball Pens Red 24pk'' on order at price $2.9. Total orders value: $29.'
+        information:
+          type: object
+          properties:
+            itemReference:
+              type: integer
+              minimum: 0
+              maximum: 9999
+            description:
+              type: string
+              maxLength: 40
+            cost:
+              type: string
+              maxLength: 6
+            department:
+              type: integer
+              minimum: 0
+              maximum: 999
+            stock:
+              type: integer
+              minimum: 0
+              maximum: 9999
+            onOrder:
+              type: integer
+              minimum: 0
+              maximum: 999
+    EmployeeBody:
+      type: object
+      properties:
+        employeeNumber:
+          maxLength: 6
+          type: string
+        firstName:
+          maxLength: 12
+          type: string
+        middleInitial:
+          maxLength: 1
+          type: string
+        lastName:
+          maxLength: 15
+          type: string
+        department:
+          maxLength: 3
+          type: string
+        phoneNumber:
+          maxLength: 4
+          minLength: 4
+          type: string
+        hireDate:
+          type: string
+          format: date-time
+        job:
+          maxLength: 8
+          type: string
+        educationLevel:
+          type: integer
+        sex:
+          maxLength: 1
+          minLength: 1
+          type: string
+        dateOfBirth:
+          type: string
+          format: date-time
+        salary:
+          type: number
+          format: double
+        bonus:
+          type: number
+          format: double
+        commission:
+          type: number
+          format: double
+      example:
+        employeeNumber: "000010"
+        firstName: CHRISTINE
+        middleInitial: I
+        lastName: HAAS
+        department: A00
+        phoneNumber: "3978"
+        hireDate: 2000-01-01
+        job: PRES
+        educationLevel: 18
+        sex: F
+        dateOfBirth: 1933-08-14
+        salary: 52750.0
+        bonus: 1000.0
+        commission: 4220.0
+    EmployeeBodyFormatted:
+      type: object
+      properties:
+        summary:
+          $ref: '#/components/schemas/EmployeeSummary'
+        personal:
+          $ref: '#/components/schemas/EmployeePersonalDetails'
+        work:
+          $ref: '#/components/schemas/EmployeeWorkDetails'
+    EmployeeSummary:
+      type: object
+      properties:
+        bio:
+          maxLength: 100
+          type: string
+      example:
+        bio: Christine Haas was hired in 1965 at 32 years old and is paid a total
+          of $57970
+    EmployeePersonalDetails:
+      type: object
+      properties:
+        firstName:
+          maxLength: 12
+          type: string
+        middleInitial:
+          maxLength: 1
+          type: string
+        lastName:
+          maxLength: 15
+          type: string
+        sex:
+          maxLength: 1
+          minLength: 1
+          type: string
+        dateOfBirth:
+          type: string
+          format: date-time
+      example:
+        firstName: CHRISTINE
+        middleInitial: I
+        lastName: HAAS
+        sex: F
+        dateOfBirth: 1933-08-14
+    EmployeeWorkDetails:
+      type: object
+      properties:
+        employeeNumber:
+          maxLength: 6
+          type: string
+        department:
+          maxLength: 3
+          type: string
+        phoneNumber:
+          maxLength: 4
+          minLength: 4
+          type: string
+        hireDate:
+          type: string
+          format: date-time
+        job:
+          maxLength: 8
+          type: string
+        educationLevel:
+          type: integer
+        pay:
+          $ref: '#/components/schemas/EmployeeWorkPay'
+      example:
+        employeeNumber: "000010"
+        department: A00
+        phoneNumber: "3978"
+        hireDate: 2000-01-01
+        job: PRES
+        educationLevel: 18
+        pay:
+          salary: 52750.0
+          bonus: 1000.0
+          commission: 4220.0
+    EmployeeWorkPay:
+      type: object
+      properties:
+        salary:
+          type: number
+          format: double
+        bonus:
+          type: number
+          format: double
+        commission:
+          type: number
+          format: double
+      example:
+        salary: 52750.0
+        bonus: 1000.0
+        commission: 4220.0
+    EmployeeNotFound:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Employee could not be found
+    EmployeeNumber:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        employeeNumber: "000010"
+    Departments:
+      type: string
+      enum:
+      - A00
+      - B01
+      - C01
+      - E01
+      - D11
+      - D21
+      - E11
+      - E21
+    Job:
+      type: string
+      enum:
+      - "FIELDREP"
+      - "OPERATOR"
+      - "CLERK   "
+      - "DESIGNER"
+      - "ANALYST "
+      - "SALESREP"
+      - "MANAGER "
+      - "PRES    "
+    Contact:
+      type: object
+      properties:
+        firstName:
+          type: string
+          maxLength: 10
+          example: Fred
+        lastName:
+          type: string
+          maxLength: 10
+          example: Smith
+        extension:
+          type: string
+          maxLength: 10
+          example: 000-0000
+        zipCode:
+          type: string
+          maxLength: 7
+          example: 10504
+      required:
+      - firstName
+      - lastName
+      - extension
+      - zipCode
+    ContactUpdate:
+      type: object
+      properties:
+        firstName:
+          type: string
+          maxLength: 10
+          example: Fred
+        extension:
+          type: string
+          maxLength: 10
+          example: 000-0000
+        zipCode:
+          type: string
+          maxLength: 7
+          example: 10504
+      required:
+      - firstName
+      - extension
+      - zipCode
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+    startItemID:
+      name: startItemID
+      in: query
+      required: true
+      style: form
+      explode: true
+      schema:
+        type: string
+    itemNumber:
+      name: itemNumber
+      in: query
+      required: true
+      style: form
+      explode: true
+      schema:
+        type: string
+    quantity:
+      name: quantity
+      in: query
+      required: true
+      style: form
+      explode: true
+      schema:
+        type: string
+    department:
+      name: department
+      in: query
+      required: false
+      style: form
+      explode: true
+      schema:
+        $ref: '#/components/schemas/Departments'
+    job:
+      name: job
+      in: query
+      required: false
+      style: form
+      explode: true
+      schema:
+        $ref: '#/components/schemas/Job'
+    lastName:
+      name: lastName
+      in: path
+      required: true
+      style: simple
+      schema:
+        type: string
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
