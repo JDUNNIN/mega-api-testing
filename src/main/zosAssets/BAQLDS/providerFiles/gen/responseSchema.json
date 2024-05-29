@@ -1,0 +1,91 @@
+{
+  "$schema" : "http://json-schema.org/draft-04/schema#",
+  "type" : "object",
+  "properties" : {
+    "message" : {
+      "type" : "object",
+      "properties" : {
+        "IO-STRUCT" : {
+          "type" : "object",
+          "properties" : {
+            "IO-RECORDS-OK" : {
+              "maxLength" : 1,
+              "type" : "string",
+              "x-ibm-zcon-metadata" : {
+                "type" : "05 IO-RECORDS-OK PIC X USAGE DISPLAY.",
+                "name" : "IO-RECORDS-OK"
+              }
+            },
+            "IO-RECORD" : {
+              "type" : "array",
+              "maxItems" : 10000,
+              "minItems" : 0,
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "IO-TEXT-AA" : {
+                    "maxLength" : 80,
+                    "type" : "string",
+                    "x-ibm-zcon-metadata" : {
+                      "type" : "10 IO-TEXT-AA PIC X(80) USAGE DISPLAY.",
+                      "name" : "IO-TEXT-AA"
+                    }
+                  },
+                  "IO-TEXT-BB" : {
+                    "maxLength" : 80,
+                    "type" : "string",
+                    "x-ibm-zcon-metadata" : {
+                      "type" : "10 IO-TEXT-BB PIC X(80) USAGE DISPLAY.",
+                      "name" : "IO-TEXT-BB"
+                    }
+                  },
+                  "IO-TEXT-CC" : {
+                    "maxLength" : 80,
+                    "type" : "string",
+                    "x-ibm-zcon-metadata" : {
+                      "type" : "10 IO-TEXT-CC PIC X(80) USAGE DISPLAY.",
+                      "name" : "IO-TEXT-CC"
+                    }
+                  },
+                  "IO-TEXT-DD" : {
+                    "maxLength" : 80,
+                    "type" : "string",
+                    "x-ibm-zcon-metadata" : {
+                      "type" : "10 IO-TEXT-DD PIC X(80) USAGE DISPLAY.",
+                      "name" : "IO-TEXT-DD"
+                    }
+                  },
+                  "IO-TEXT-EE" : {
+                    "maxLength" : 80,
+                    "type" : "string",
+                    "x-ibm-zcon-metadata" : {
+                      "type" : "10 IO-TEXT-EE PIC X(80) USAGE DISPLAY.",
+                      "name" : "IO-TEXT-EE"
+                    }
+                  },
+                  "IO-TEXT-FF" : {
+                    "maxLength" : 80,
+                    "type" : "string",
+                    "x-ibm-zcon-metadata" : {
+                      "type" : "10 IO-TEXT-FF PIC X(80) USAGE DISPLAY.",
+                      "name" : "IO-TEXT-FF"
+                    }
+                  },
+                  "IO-TEXT-GG" : {
+                    "maxLength" : 80,
+                    "type" : "string",
+                    "x-ibm-zcon-metadata" : {
+                      "type" : "10 IO-TEXT-GG PIC X(80) USAGE DISPLAY.",
+                      "name" : "IO-TEXT-GG"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "description" : "General wrapper for IMS Message segment z/OS Asset responses"
+}

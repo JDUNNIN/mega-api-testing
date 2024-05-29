@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:message xmlns:ns2="http://www.ibm.com/ims/Transaction" direction="0">
+    <message id="1">
+        <segment id="1">
+            <field name="IO-STRUCT" originalName="IO-STRUCT" included="Y" path="IO-STRUCT" fileName="BAQLDS.cpy" structureIndex="0" structSrcFileName="IO-STRUCT.cpy" srcLine="01 IO-STRUCT.">
+                <startPos>1</startPos>
+                <bytes>5600005</bytes>
+                <maxBytes>0</maxBytes>
+                <applicationDatatype datatype="STRUCT"/>
+                <field name="IO-RECORDS-OK" originalName="IO-RECORDS-OK" included="Y" path="IO-STRUCT.IO-RECORDS-OK" srcLine="05 IO-RECORDS-OK PIC X USAGE DISPLAY.">
+                    <startPos>1</startPos>
+                    <bytes>1</bytes>
+                    <maxBytes>1</maxBytes>
+                    <applicationDatatype datatype="CHAR"/>
+                </field>
+                <field name="IO-RECORD-CNT" originalName="IO-RECORD-CNT" included="N" path="IO-STRUCT.IO-RECORD-CNT" dependedOn="true" srcLine="05 IO-RECORD-CNT PIC S9(9) USAGE COMP-5.">
+                    <startPos>2</startPos>
+                    <bytes>4</bytes>
+                    <maxBytes>4</maxBytes>
+                    <marshaller isNativeInteger="Y" alignment="NATURAL"/>
+                    <applicationDatatype datatype="INT"/>
+                </field>
+                <field name="IO-RECORD" originalName="IO-RECORD" included="Y" path="IO-STRUCT.IO-RECORD" dependsOn="IO-RECORD-CNT" dependsOnPath="IO-STRUCT.IO-RECORD-CNT" minOccurs="0" maxOccurs="10000" srcLine="05 IO-RECORD OCCURS 0 TO 10000 TIMES DEPENDING ON IO-RECORD-CNT.">
+                    <startPos>6</startPos>
+                    <bytes>5600000</bytes>
+                    <maxBytes>0</maxBytes>
+                    <marshaller alignment="NATURAL"/>
+                    <applicationDatatype datatype="ARRAY"/>
+                    <field name="IO-TEXT-AA" originalName="IO-TEXT-AA" included="Y" path="IO-STRUCT.IO-RECORD.IO-TEXT-AA" srcLine="10 IO-TEXT-AA PIC X(80) USAGE DISPLAY.">
+                        <bytes>80</bytes>
+                        <maxBytes>80</maxBytes>
+                        <applicationDatatype datatype="CHAR"/>
+                    </field>
+                    <field name="IO-TEXT-BB" originalName="IO-TEXT-BB" included="Y" path="IO-STRUCT.IO-RECORD.IO-TEXT-BB" srcLine="10 IO-TEXT-BB PIC X(80) USAGE DISPLAY.">
+                        <bytes>80</bytes>
+                        <maxBytes>80</maxBytes>
+                        <applicationDatatype datatype="CHAR"/>
+                    </field>
+                    <field name="IO-TEXT-CC" originalName="IO-TEXT-CC" included="Y" path="IO-STRUCT.IO-RECORD.IO-TEXT-CC" srcLine="10 IO-TEXT-CC PIC X(80) USAGE DISPLAY.">
+                        <bytes>80</bytes>
+                        <maxBytes>80</maxBytes>
+                        <applicationDatatype datatype="CHAR"/>
+                    </field>
+                    <field name="IO-TEXT-DD" originalName="IO-TEXT-DD" included="Y" path="IO-STRUCT.IO-RECORD.IO-TEXT-DD" srcLine="10 IO-TEXT-DD PIC X(80) USAGE DISPLAY.">
+                        <bytes>80</bytes>
+                        <maxBytes>80</maxBytes>
+                        <applicationDatatype datatype="CHAR"/>
+                    </field>
+                    <field name="IO-TEXT-EE" originalName="IO-TEXT-EE" included="Y" path="IO-STRUCT.IO-RECORD.IO-TEXT-EE" srcLine="10 IO-TEXT-EE PIC X(80) USAGE DISPLAY.">
+                        <bytes>80</bytes>
+                        <maxBytes>80</maxBytes>
+                        <applicationDatatype datatype="CHAR"/>
+                    </field>
+                    <field name="IO-TEXT-FF" originalName="IO-TEXT-FF" included="Y" path="IO-STRUCT.IO-RECORD.IO-TEXT-FF" srcLine="10 IO-TEXT-FF PIC X(80) USAGE DISPLAY.">
+                        <bytes>80</bytes>
+                        <maxBytes>80</maxBytes>
+                        <applicationDatatype datatype="CHAR"/>
+                    </field>
+                    <field name="IO-TEXT-GG" originalName="IO-TEXT-GG" included="Y" path="IO-STRUCT.IO-RECORD.IO-TEXT-GG" srcLine="10 IO-TEXT-GG PIC X(80) USAGE DISPLAY.">
+                        <bytes>80</bytes>
+                        <maxBytes>80</maxBytes>
+                        <applicationDatatype datatype="CHAR"/>
+                    </field>
+                </field>
+            </field>
+        </segment>
+    </message>
+</ns2:message>

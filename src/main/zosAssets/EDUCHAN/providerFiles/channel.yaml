@@ -1,0 +1,13 @@
+---
+version: 1.0
+request:
+- name: "INPUTDATA"
+  type: "CHAR"
+response:
+- name: "OUTPUTDATA"
+  type: "CHAR"
+- name: "CICSTIME"
+  type: "CHAR"
+- name: "CICSRC"
+  type: "BIT"
+  transform: "CICSRCResp.dai"

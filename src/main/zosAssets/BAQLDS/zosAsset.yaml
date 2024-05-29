@@ -1,0 +1,8 @@
+---
+version: 1.0
+type: "imsLargeDataStructure-1.0"
+description: "transaction BAQLDS"
+providerProperties:
+  language: "COBOL"
+  transactionCode: "BAQLDS"
+  connectionRef: "imsConn"

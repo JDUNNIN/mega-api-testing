@@ -1,0 +1,11 @@
+---
+version: 1.0
+type: "cicsChannel-1.0"
+description: ""
+providerProperties:
+  transidUsage: ""
+  language: "COBOL"
+  program: "EDUCHAN"
+  bidiConfigRef: ""
+  connectionRef: "cicsConn"
+  ccsid: "37"

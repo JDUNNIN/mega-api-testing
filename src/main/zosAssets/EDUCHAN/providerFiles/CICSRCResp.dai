@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:message xmlns:ns2="http://www.ibm.com/ims/Transaction" direction="0">
+    <message id="1">
+        <segment id="1">
+            <field name="RC-RECORD" originalName="RC-RECORD" included="Y" path="RC-RECORD" fileName="EDUCHAN.cbl" structureIndex="0" structSrcFileName="RC-RECORD.cpy" srcLine="01 RC-RECORD.">
+                <startPos>1</startPos>
+                <bytes>4</bytes>
+                <maxBytes>4</maxBytes>
+                <applicationDatatype datatype="STRUCT"/>
+                <field name="RC-RECORD" originalName="RC-RECORD" included="Y" path="RC-RECORD.RC-RECORD" srcLine="01 RC-RECORD PIC S9(8) USAGE COMP VALUE 0.">
+                    <startPos>1</startPos>
+                    <bytes>4</bytes>
+                    <maxBytes>4</maxBytes>
+                    <marshaller isNativeInteger="N" alignment="NATURAL"/>
+                    <applicationDatatype datatype="INT" precision="8"/>
+                </field>
+            </field>
+        </segment>
+    </message>
+</ns2:message>

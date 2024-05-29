@@ -1,0 +1,41 @@
+{
+  "$schema" : "http://json-schema.org/draft-04/schema#",
+  "type" : "object",
+  "properties" : {
+    "channel" : {
+      "type" : "object",
+      "properties" : {
+        "OUTPUTDATA" : {
+          "type" : "string"
+        },
+        "CICSTIME" : {
+          "type" : "string"
+        },
+        "CICSRC" : {
+          "type" : "object",
+          "properties" : {
+            "RC-RECORD" : {
+              "type" : "object",
+              "properties" : {
+                "RC-RECORD" : {
+                  "minimum" : -99999999,
+                  "maximum" : 99999999,
+                  "type" : "integer",
+                  "x-ibm-zcon-metadata" : {
+                    "type" : "01 RC-RECORD PIC S9(8) USAGE COMP VALUE 0.",
+                    "name" : "RC-RECORD"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "description" : "Response channel"
+    },
+    "abendCode" : {
+      "type" : "string"
+    }
+  },
+  "description" : "General wrapper for CICS channel z/OS Asset responses"
+}
